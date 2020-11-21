@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,11 +16,22 @@ public class LocalizationController {
     final LocalizationFetchService localizationFetchService;
     final LocalizationMapper localizationMapper;
 
-    @GetMapping("/location")
+    @GetMapping("/localizations")
     public List<LocalizationDto> getAllLocalizations() {
-//        return localozationCreateService.getAllLocations();
-        // todo map each Localization to LocalizationDto, use .stream().map()
-        return Collections.emptyList();
+
+        LocalizationDto localizationDto = new LocalizationDto();
+
+//         todo map each Localization to LocalizationDto, use .stream().map()
+        List<LocalizationDto> collect = localizationFetchService.getAllLocations().stream().map(p -> {
+            localizationDto.id = p.getId();
+            localizationDto.cityName = p.getCityName();
+            localizationDto.longitude = p.getLongitude();
+            localizationDto.latitude = p.getLatitude();
+            localizationDto.region = p.getRegion();
+            localizationDto.country = p.getCountry();
+            return localizationDto;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
     @GetMapping("/localization/{id}")
@@ -31,16 +42,17 @@ public class LocalizationController {
 
     @PostMapping("/localization")
     ResponseEntity<LocalizationDto> createLocalization(@RequestBody LocalizationDto localizationDto) {
-        String cityName = localizationDto.getCityName();
-        Double longitude = localizationDto.getLongitude();
-        Double latitude = localizationDto.getLatitude();
-        String region = localizationDto.getRegion();
-        String country = localizationDto.getCountry();
-        // todo use LocalizationDefinition to wrap a data
-        Localization newLocalization = localizationCreateService.createLocalization(cityName, longitude, latitude, region, country);
+        LocalizationDefinition localizationDefinition = LocalizationDefinition.builder()
+                .cityName(localizationDto.getCityName())
+                .longitude(localizationDto.getLongitude())
+                .latitude(localizationDto.getLatitude())
+                .region(localizationDto.getRegion())
+                .country(localizationDto.getCountry())
+                .build();
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(localizationMapper.mapToLocalizationDto(newLocalization));
+                .body(localizationMapper.mapToLocalizationDto(localizationMapper
+                        .mapToLocalization(localizationDefinition)));
     }
 }

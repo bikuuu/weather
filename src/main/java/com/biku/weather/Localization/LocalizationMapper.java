@@ -15,4 +15,15 @@ public class LocalizationMapper {
         localizationDto.setCountry(newLocalization.country);
         return  localizationDto;
     }
+
+
+    Localization mapToLocalization(LocalizationDefinition newLocalizationDefinition){
+        Localization localization = new Localization();
+        localization.setCityName(newLocalizationDefinition.cityName);
+        localization.setLongitude(newLocalizationDefinition.longitude);
+        localization.setLatitude(newLocalizationDefinition.latitude);
+        localization.setRegion(newLocalizationDefinition.region);
+        localization.setCountry(newLocalizationDefinition.country);
+        return  localization;
+    }
 }

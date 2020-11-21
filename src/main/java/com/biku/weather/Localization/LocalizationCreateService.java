@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class LocalizationCreateService {
         if (latitude <= -180 && latitude >= 180) {
             throw new OverRangeException("Over Range Latitude Argument: " + latitude);
         }
-        if (country.isEmpty() && country.isBlank()) {
+        if (country.isBlank()) {
             throw new NoDataException("Country Name Exception");
         }
 
@@ -36,18 +37,10 @@ public class LocalizationCreateService {
         localization.setLongitude(longitude);
         localization.setLatitude(latitude);
         localization.setCountry(country);
-
-        if (!region.isBlank()) {
-            localization.setRegion(region);
-        }
-
-        // Optional.ofNullable(region).ifPresent(localization::setRegion);
+        Optional.ofNullable(region).ifPresent(localization::setRegion);
 
         return localizationRepository.save(localization);
     }
 
-    // todo move to LocalizationFetchService
-    public List<Localization> getAllLocations() {
-        return localizationRepository.findAll();
-    }
+
 }
