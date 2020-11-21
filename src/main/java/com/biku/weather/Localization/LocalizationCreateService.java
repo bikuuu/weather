@@ -9,16 +9,16 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class LocalozationCreateService {
-    final LocalizationRepository localizationRepository;
+public class LocalizationCreateService {
 
+    final LocalizationRepository localizationRepository;
 
     Localization createLocalization(String cityName,
                                     Double longitude,
                                     Double latitude,
                                     String region,
                                     String country) {
-        if (cityName.isEmpty() && cityName.isBlank()) {
+        if (cityName.isBlank()) {
             throw new NoDataException("City Name Exception");
         }
         if (longitude <= -90 && longitude >= 90) {
@@ -35,14 +35,18 @@ public class LocalozationCreateService {
         localization.setCityName(cityName);
         localization.setLongitude(longitude);
         localization.setLatitude(latitude);
-        if (!region.isEmpty() || !region.isBlank()) {
+        localization.setCountry(country);
+
+        if (!region.isBlank()) {
             localization.setRegion(region);
         }
-        localization.setCountry(country);
+
+        // Optional.ofNullable(region).ifPresent(localization::setRegion);
 
         return localizationRepository.save(localization);
     }
 
+    // todo move to LocalizationFetchService
     public List<Localization> getAllLocations() {
         return localizationRepository.findAll();
     }
