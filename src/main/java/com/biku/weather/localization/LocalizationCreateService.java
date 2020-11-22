@@ -1,11 +1,10 @@
-package com.biku.weather.Localization;
+package com.biku.weather.localization;
 
-import com.biku.weather.Exceptions.NoDataException;
-import com.biku.weather.Exceptions.OverRangeException;
+import com.biku.weather.exceptions.NoDataException;
+import com.biku.weather.exceptions.OverRangeException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -14,6 +13,7 @@ public class LocalizationCreateService {
 
     final LocalizationRepository localizationRepository;
 
+    // todo accept LocalizationDefinition as a parameter
     Localization createLocalization(String cityName,
                                     Double longitude,
                                     Double latitude,
@@ -41,6 +41,4 @@ public class LocalizationCreateService {
 
         return localizationRepository.save(localization);
     }
-
-
 }

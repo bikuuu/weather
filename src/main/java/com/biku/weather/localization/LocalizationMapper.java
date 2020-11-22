@@ -1,4 +1,4 @@
-package com.biku.weather.Localization;
+package com.biku.weather.localization;
 
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class LocalizationMapper {
         return  localizationDto;
     }
 
-
+    // todo remove
     Localization mapToLocalization(LocalizationDefinition newLocalizationDefinition){
         Localization localization = new Localization();
         localization.setCityName(newLocalizationDefinition.cityName);

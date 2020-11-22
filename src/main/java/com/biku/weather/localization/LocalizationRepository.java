@@ -1,4 +1,4 @@
-package com.biku.weather.Localization;
+package com.biku.weather.localization;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

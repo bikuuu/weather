@@ -1,8 +1,5 @@
-package com.biku.weather;
+package com.biku.weather.localization;
 
-import com.biku.weather.Localization.Localization;
-import com.biku.weather.Localization.LocalizationDto;
-import com.biku.weather.Localization.LocalizationRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

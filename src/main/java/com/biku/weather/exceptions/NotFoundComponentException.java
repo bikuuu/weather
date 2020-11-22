@@ -1,4 +1,4 @@
-package com.biku.weather.Exceptions;
+package com.biku.weather.exceptions;
 
 public class NotFoundComponentException extends RuntimeException {
 

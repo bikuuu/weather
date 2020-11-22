@@ -1,4 +1,4 @@
-package com.biku.weather.Localization;
+package com.biku.weather.localization;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +20,8 @@ public class LocalizationController {
 
     @GetMapping("/localizations")
     public List<LocalizationDto> getAllLocalizations() {
-
-
-
-//         todo map each Localization to LocalizationDto, use .stream().map()
-        List<LocalizationDto> collect = localizationFetchService.getAllLocations().stream().map(p -> {
+        // todo use localizationMapper.mapToLocalizationDto
+        return localizationFetchService.getAllLocations().stream().map(p -> {
             LocalizationDto localizationDto = new LocalizationDto();
             localizationDto.id = p.getId();
             localizationDto.cityName = p.getCityName();
@@ -34,7 +31,6 @@ public class LocalizationController {
             localizationDto.country = p.getCountry();
             return localizationDto;
         }).collect(Collectors.toList());
-        return collect;
     }
 
     @GetMapping("/localization/{id}")
@@ -53,10 +49,11 @@ public class LocalizationController {
                 .country(localizationDto.getCountry())
                 .build();
 
-        Localization localization = localizationMapper.mapToLocalization(localizationDefinition);
+        // todo uncomment and adjust this method
+        // Localization localization = localizationCreateService.createLocalization(localizationDefinition);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(localizationMapper.mapToLocalizationDto(localization));
+                .body(localizationMapper.mapToLocalizationDto(null)); // todo change to localization
     }
 }

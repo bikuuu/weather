@@ -1,4 +1,4 @@
-package com.biku.weather.Localization;
+package com.biku.weather.localization;
 
 import lombok.Data;
 
@@ -10,6 +10,7 @@ import javax.persistence.Id;
 @Data
 @Entity
 public class Localization {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
