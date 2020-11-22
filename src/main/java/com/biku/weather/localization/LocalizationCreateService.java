@@ -13,31 +13,26 @@ public class LocalizationCreateService {
 
     final LocalizationRepository localizationRepository;
 
-    // todo accept LocalizationDefinition as a parameter
-    Localization createLocalization(String cityName,
-                                    Double longitude,
-                                    Double latitude,
-                                    String region,
-                                    String country) {
-        if (cityName.isBlank()) {
+    Localization createLocalization(LocalizationDefinition localizationDefinition) {
+        if (localizationDefinition.getCityName().isBlank()) {
             throw new NoDataException("City Name Exception");
         }
-        if (longitude <= -90 && longitude >= 90) {
-            throw new OverRangeException("Over Range Longitude Argument: " + longitude);
+        if (localizationDefinition.getLongitude() <= -90 && localizationDefinition.getLongitude() >= 90) {
+            throw new OverRangeException("Over Range Longitude Argument: " + localizationDefinition.getLongitude());
         }
-        if (latitude <= -180 && latitude >= 180) {
-            throw new OverRangeException("Over Range Latitude Argument: " + latitude);
+        if (localizationDefinition.getLatitude() <= -180 && localizationDefinition.getLatitude() >= 180) {
+            throw new OverRangeException("Over Range Latitude Argument: " + localizationDefinition.getLatitude());
         }
-        if (country.isBlank()) {
+        if (localizationDefinition.getCountry().isBlank()) {
             throw new NoDataException("Country Name Exception");
         }
 
         Localization localization = new Localization();
-        localization.setCityName(cityName);
-        localization.setLongitude(longitude);
-        localization.setLatitude(latitude);
-        localization.setCountry(country);
-        Optional.ofNullable(region).ifPresent(localization::setRegion);
+        localization.setCityName(localizationDefinition.cityName);
+        localization.setLongitude(localizationDefinition.longitude);
+        localization.setLatitude(localizationDefinition.latitude);
+        localization.setCountry(localizationDefinition.country);
+        Optional.ofNullable(localizationDefinition.region).ifPresent(localization::setRegion);
 
         return localizationRepository.save(localization);
     }

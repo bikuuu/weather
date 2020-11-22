@@ -37,7 +37,13 @@ class LocalizationCreateIntegrationTest {
     @Test
     void createNewLocalization_createsNewLocalizationAndReturn201StatusCode() throws Exception {
         //given
-        LocalizationDto localizationDto = new LocalizationDto(null, "Gdansk", 18.40, 54.21, "Pomorze", "Polska");
+        LocalizationDto localizationDto = new LocalizationDto(
+                null,
+                "Gdansk",
+                18.40,
+                54.21,
+                "Pomorze",
+                "Polska");
         String requestBody = objectMapper.writeValueAsString(localizationDto);
         MockHttpServletRequestBuilder post = post("/localization")
                 .contentType(MediaType.APPLICATION_JSON)

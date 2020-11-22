@@ -13,7 +13,6 @@ public class LocalizationFetchService {
     private final LocalizationRepository localizationRepository;
 
     public Localization fetchLocalization(Long id) {
-        // todo add ExceptionHandler -> create a new class eg. ExceptionHandlerController and use @ControllerAdvice
         return localizationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundComponentException("Bad id: " + id));
     }

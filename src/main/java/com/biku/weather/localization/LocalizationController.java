@@ -20,17 +20,10 @@ public class LocalizationController {
 
     @GetMapping("/localizations")
     public List<LocalizationDto> getAllLocalizations() {
-        // todo use localizationMapper.mapToLocalizationDto
-        return localizationFetchService.getAllLocations().stream().map(p -> {
-            LocalizationDto localizationDto = new LocalizationDto();
-            localizationDto.id = p.getId();
-            localizationDto.cityName = p.getCityName();
-            localizationDto.longitude = p.getLongitude();
-            localizationDto.latitude = p.getLatitude();
-            localizationDto.region = p.getRegion();
-            localizationDto.country = p.getCountry();
-            return localizationDto;
-        }).collect(Collectors.toList());
+        return localizationFetchService.getAllLocations()
+                .stream()
+                .map(p -> localizationMapper.mapToLocalizationDto(p))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/localization/{id}")
@@ -49,11 +42,10 @@ public class LocalizationController {
                 .country(localizationDto.getCountry())
                 .build();
 
-        // todo uncomment and adjust this method
-        // Localization localization = localizationCreateService.createLocalization(localizationDefinition);
+         Localization localization = localizationCreateService.createLocalization(localizationDefinition);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(localizationMapper.mapToLocalizationDto(null)); // todo change to localization
+                .body(localizationMapper.mapToLocalizationDto(localization));
     }
 }
