@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class LocalizationFetchServiceTest {
+class LocalizationFetchServiceIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -31,7 +31,7 @@ class LocalizationFetchServiceTest {
     }
 
     @Test
-    void fetchLozalizationDetails_returnsDetailsOfLocalization() throws Exception {
+    void fetchLocalizationDetails_returnsDetailsOfLocalization() throws Exception {
         //given
         Localization localization = new Localization();
         localization.setCityName("Gdansk");
@@ -39,12 +39,10 @@ class LocalizationFetchServiceTest {
         localization.setLatitude(54.21);
         localization.setRegion("Pomorze");
         localization.setCountry("Polska");
-        System.out.println(localization.toString());
         Localization savedLocalization = localizationRepository.save(localization);
         Long id = savedLocalization.getId();
-        System.out.println("ID: " + id);
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/localization/{id}" + id)
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/localization/" + id)
                 .contentType(MediaType.APPLICATION_JSON);
 
         //when
@@ -54,5 +52,4 @@ class LocalizationFetchServiceTest {
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
-
 }
