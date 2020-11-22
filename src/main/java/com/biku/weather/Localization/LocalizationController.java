@@ -1,6 +1,7 @@
 package com.biku.weather.Localization;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class LocalizationController {
 
     final LocalizationCreateService localizationCreateService;
@@ -19,10 +21,11 @@ public class LocalizationController {
     @GetMapping("/localizations")
     public List<LocalizationDto> getAllLocalizations() {
 
-        LocalizationDto localizationDto = new LocalizationDto();
+
 
 //         todo map each Localization to LocalizationDto, use .stream().map()
         List<LocalizationDto> collect = localizationFetchService.getAllLocations().stream().map(p -> {
+            LocalizationDto localizationDto = new LocalizationDto();
             localizationDto.id = p.getId();
             localizationDto.cityName = p.getCityName();
             localizationDto.longitude = p.getLongitude();
@@ -50,9 +53,10 @@ public class LocalizationController {
                 .country(localizationDto.getCountry())
                 .build();
 
+        Localization localization = localizationMapper.mapToLocalization(localizationDefinition);
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(localizationMapper.mapToLocalizationDto(localizationMapper
-                        .mapToLocalization(localizationDefinition)));
+                .body(localizationMapper.mapToLocalizationDto(localization));
     }
 }
