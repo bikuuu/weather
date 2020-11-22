@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,7 +43,7 @@ class LocalizationFetchServiceIntegrationTest {
         Localization savedLocalization = localizationRepository.save(localization);
         Long id = savedLocalization.getId();
 
-        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/localization/" + id)
+        MockHttpServletRequestBuilder request = get("/localization/" + id)
                 .contentType(MediaType.APPLICATION_JSON);
 
         //when
@@ -51,5 +52,19 @@ class LocalizationFetchServiceIntegrationTest {
         //then
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void fetchLocalizationDetails_whenRepositoryIsEmpty_returnsDetailsOfLocalization() throws Exception {
+        //given
+        MockHttpServletRequestBuilder request = get("/localization/1")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        //when
+        MvcResult result = mockMvc.perform(request).andReturn();
+
+        //then
+        MockHttpServletResponse response = result.getResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 }
