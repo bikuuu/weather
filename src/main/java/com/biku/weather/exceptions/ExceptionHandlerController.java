@@ -1,0 +1,31 @@
+package com.biku.weather.exceptions;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ControllerAdvice
+@Slf4j
+public class ExceptionHandlerController {
+
+    @ExceptionHandler(NoDataException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    void noDataExceptionHandler(NoDataException exception) {
+        log.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(NotFoundComponentException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    void noFoundComponenetExceptionHandler(NotFoundComponentException exception) {
+        log.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(OverRangeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    void overRangeExceptionHandler(OverRangeException exception) {
+        log.error(exception.getMessage());
+    }
+
+}
