@@ -28,4 +28,15 @@ public class ExceptionHandlerController {
         log.error(exception.getMessage());
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    void badRequestException(BadRequestException exception) {
+        log.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(WrongDataException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    void wrongDataException(WrongDataException exception) {
+        log.error(exception.getMessage());
+    }
 }
