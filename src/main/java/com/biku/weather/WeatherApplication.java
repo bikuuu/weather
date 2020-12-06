@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 public class WeatherApplication {
 
 
-public static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(WeatherApplication.class, args);
     }
 }
