@@ -22,6 +22,7 @@ class ForecastService {
     private final ObjectMapper objectMapper;
     private final DateManager dateManager;
     private final ForecastCreator forecastCreator;
+    private final OpenWeatherConfig config;
 
     public Forecast getForecast(Long id, Integer period) {
         Localization localization = localizationFetchService.fetchLocalization(id);
@@ -30,7 +31,7 @@ class ForecastService {
                 .scheme("http")
                 .host("api.openweathermap.org/data/2.5/forecast")
                 .queryParam("q", cityName)
-                .queryParam("appid", "4cf8ef85b5f5a71c0346f89e6a9eb25f")
+                .queryParam("appid", config.getApiKey())
                 .build().toUriString();
 
         ResponseEntity<String> entity = restTemplate.getForEntity(url, String.class);
