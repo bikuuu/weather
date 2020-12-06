@@ -12,7 +12,7 @@ import javax.validation.ConstraintViolationException;
 @Slf4j
 public class ExceptionHandlerController {
 
-    @ExceptionHandler({NoDataException.class, ConstraintViolationException.class})
+    @ExceptionHandler(NoDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     void noDataExceptionHandler(NoDataException exception) {
         log.error(exception.getMessage());
