@@ -1,5 +1,8 @@
 package com.biku.weather.forecast;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ForecastMapper {
 
     ForecastDto mapToForecastDto(Forecast newForecast) {

@@ -27,7 +27,7 @@ class ForecastService {
         String cityName = localization.getCityName();
         String url = UriComponentsBuilder.newInstance()
                 .scheme("http")
-                .host("api.openweathermap.org/data/2.5/weather")
+                .host("api.openweathermap.org/data/2.5/forecast")
                 .queryParam("q", cityName)
                 .queryParam("appid", "4cf8ef85b5f5a71c0346f89e6a9eb25f")
                 .build().toUriString();
