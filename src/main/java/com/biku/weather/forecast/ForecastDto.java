@@ -1,4 +1,4 @@
-package com.biku.weather.weather;
+package com.biku.weather.forecast;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ForecastDto {
     long id;
-    double temperature;
-    int airPressure;
-    int airHumidity;
-    double windSpeed;
+    String temperature;
+    String airPressure;
+    String airHumidity;
+    String windSpeed;
     String windDirection;
+    String date;
 }

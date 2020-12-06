@@ -6,13 +6,21 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.validation.ConstraintViolationException;
+
 @ControllerAdvice
 @Slf4j
 public class ExceptionHandlerController {
 
-    @ExceptionHandler(NoDataException.class)
+    @ExceptionHandler({NoDataException.class, ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     void noDataExceptionHandler(NoDataException exception) {
+        log.error(exception.getMessage());
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    void constrainViolationException(ConstraintViolationException exception) {
         log.error(exception.getMessage());
     }
 
