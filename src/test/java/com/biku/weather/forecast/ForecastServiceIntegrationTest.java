@@ -24,11 +24,14 @@ class ForecastServiceIntegrationTest {
     MockMvc mockMvc;
     @Autowired
     LocalizationRepository localizationRepository;
+    @Autowired
+    ForecastRepository forecastRepository;
 
     Localization savedLocalization;
 
     @BeforeEach
     void setUp() {
+        forecastRepository.deleteAll();
         localizationRepository.deleteAll();
         Localization localization = new Localization();
         localization.setCityName("Warsaw");
@@ -57,10 +60,8 @@ class ForecastServiceIntegrationTest {
         Long id = savedLocalization.getId();
         MockHttpServletRequestBuilder requestBuilder = get("/localization/" + id + "/forecast?period=6")
                 .contentType(MediaType.APPLICATION_JSON);
-
         //when
         MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
-
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }

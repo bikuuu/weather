@@ -47,4 +47,10 @@ public class ExceptionHandlerController {
     void wrongDataException(WrongDataException exception) {
         log.error(exception.getMessage());
     }
+
+    @ExceptionHandler(CriticalError.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    void criticalError(CriticalError exception) {
+        log.error(exception.getMessage());
+    }
 }
