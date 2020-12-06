@@ -12,11 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 @Component
 @RequiredArgsConstructor
 class ForecastService {
@@ -25,6 +20,8 @@ class ForecastService {
     private final ForecastRepository forecastRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+    private final DateManager dateManager;
+    private final ForecastCreator forecastCreator;
 
     public Forecast getForecast(Long id, Integer period) {
         Localization localization = localizationFetchService.fetchLocalization(id);
@@ -38,27 +35,19 @@ class ForecastService {
 
         ResponseEntity<String> entity = restTemplate.getForEntity(url, String.class);
         String response = entity.getBody();
-        LocalDateTime forecastDateTime = LocalDateTime.of(LocalDate.now().plusDays(period), LocalTime.of(12, 0));
 
         try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             ForecastOpenWeatherResponse forecast = objectMapper.readValue(response, ForecastOpenWeatherResponse.class);
-            ForecastOpenWeatherResponse.SingleForecast forecastFromSingleForecast = forecast.getList().stream().filter(singleForecast -> forecast.toString().contains(cityName)
-                    && LocalDateTime.parse(singleForecast.getDate(), formatter).equals(forecastDateTime))
+            ForecastOpenWeatherResponse.SingleForecast forecastFromSingleForecast = forecast
+                    .getList()
+                    .stream()
+                    .filter(singleForecast -> forecast.toString().contains(cityName) &&
+                            dateManager.localDateTimeConverter(singleForecast.getDate())
+                                    .equals(dateManager.nowDatePlusPeriod(period)))
                     .findFirst()
                     .orElseThrow(() -> new NotFoundComponentException("Cannot find forecast for " + cityName));
-
-            Forecast newForecast = new Forecast();
-            newForecast.setLocalization(localization);
-            newForecast.setTemperature(forecastFromSingleForecast.getMain().getTemperatur());
-            newForecast.setAirHumidity(forecastFromSingleForecast.getAirHumidity());
-            newForecast.setAirPressure(forecastFromSingleForecast.getAirPressure());
-            newForecast.setWindSpeed(forecastFromSingleForecast.getWind().getWindSpeed());
-            newForecast.setWindDirection(forecastFromSingleForecast.getWind().getWindDirection());
-            newForecast.setDate(forecastFromSingleForecast.getDate());
-            forecastRepository.save(newForecast);
-            return newForecast;
-
+            return forecastRepository
+                    .save(forecastCreator.createNewForecast(forecastFromSingleForecast, localization));
 
         } catch (JsonProcessingException e) {
             throw new CriticalError("Critical error: " + e.getMessage());

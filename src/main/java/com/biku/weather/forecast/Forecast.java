@@ -1,6 +1,7 @@
 package com.biku.weather.forecast;
 
 import com.biku.weather.localization.Localization;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
