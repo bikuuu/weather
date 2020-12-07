@@ -52,6 +52,7 @@ class ForecastServiceIntegrationTest {
         MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        // todo check a response (check that all fields are not empty)
     }
 
     @Test
@@ -65,4 +66,6 @@ class ForecastServiceIntegrationTest {
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
+
+    // todo write more tests
 }

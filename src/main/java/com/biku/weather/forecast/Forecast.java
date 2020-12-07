@@ -12,15 +12,16 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 public class Forecast {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String temperature;
     String airPressure;
     String airHumidity;
     String windSpeed;
     String windDirection;
-    String date;
+    String date;            // todo use Instant
 
     @ManyToOne
     Localization localization;

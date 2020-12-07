@@ -42,7 +42,7 @@ class ForecastService {
             ForecastOpenWeatherResponse.SingleForecast forecastFromSingleForecast = forecast
                     .getList()
                     .stream()
-                    .filter(singleForecast -> forecast.toString().contains(cityName) &&
+                    .filter(singleForecast -> forecast.toString().contains(cityName) &&         // todo forecast.toString().contains(cityName) is unnecessary
                             dateManager.localDateTimeConverter(singleForecast.getDate())
                                     .equals(dateManager.nowDatePlusPeriod(period)))
                     .findFirst()

@@ -4,7 +4,8 @@ import com.biku.weather.localization.Localization;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ForecastCreator {
+public class ForecastCreator {  // todo rename or move createNewForecast method - it's a mapper
+
     Forecast createNewForecast(ForecastOpenWeatherResponse.SingleForecast forecast,
                                Localization localization) {
         Forecast newForecast = new Forecast();

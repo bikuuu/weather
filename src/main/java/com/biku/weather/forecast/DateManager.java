@@ -8,7 +8,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
-public class DateManager {
+class DateManager { // todo good job! just write unit tests for this class
 
     LocalDateTime nowDatePlusPeriod(Integer period) {
         return LocalDateTime.of(LocalDate.now().plusDays(period), LocalTime.of(12, 0));
@@ -18,6 +18,4 @@ public class DateManager {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(date, formatter);
     }
-
-
 }

@@ -7,14 +7,14 @@ import java.util.List;
 
 @Data
 public class ForecastOpenWeatherResponse {
-    private String cod;
-    private int cnt;
-    private CityResponse city;
+
+    private String cod;             // todo unnecessary
+    private int cnt;                // todo unnecessary
+    private CityResponse city;      // todo unnecessary
     private List<SingleForecast> list;
 
-
     @Data
-    public static class CityResponse {
+    public static class CityResponse {      // todo unnecessary
         private String name;
         private String population;
     }
@@ -24,9 +24,9 @@ public class ForecastOpenWeatherResponse {
         @JsonProperty("dt_txt")
         private String date;
         @JsonProperty("pressure")
-        private String airPressure;
+        private String airPressure;     // todo wrong place
         @JsonProperty("humidity")
-        private String airHumidity;
+        private String airHumidity;     // todo wrong place
         private Main main;
         private Wind wind;
     }
@@ -34,7 +34,7 @@ public class ForecastOpenWeatherResponse {
     @Data
     public static class Main {
         @JsonProperty("temp")
-        private String temperatur;
+        private String temperatur;  // todo typo - temperature
     }
 
     @Data
@@ -44,5 +44,4 @@ public class ForecastOpenWeatherResponse {
         @JsonProperty("deg")
         private String windSpeed;
     }
-
 }
