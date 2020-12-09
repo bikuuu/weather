@@ -8,25 +8,12 @@ import java.util.List;
 @Data
 public class ForecastOpenWeatherResponse {
 
-    private String cod;             // todo unnecessary
-    private int cnt;                // todo unnecessary
-    private CityResponse city;      // todo unnecessary
     private List<SingleForecast> list;
-
-    @Data
-    public static class CityResponse {      // todo unnecessary
-        private String name;
-        private String population;
-    }
 
     @Data
     public static class SingleForecast {
         @JsonProperty("dt_txt")
         private String date;
-        @JsonProperty("pressure")
-        private String airPressure;     // todo wrong place
-        @JsonProperty("humidity")
-        private String airHumidity;     // todo wrong place
         private Main main;
         private Wind wind;
     }
@@ -34,7 +21,11 @@ public class ForecastOpenWeatherResponse {
     @Data
     public static class Main {
         @JsonProperty("temp")
-        private String temperatur;  // todo typo - temperature
+        private String temperature;
+        @JsonProperty("pressure")
+        private String airPressure;
+        @JsonProperty("humidity")
+        private String airHumidity;
     }
 
     @Data

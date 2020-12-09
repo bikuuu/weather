@@ -53,6 +53,21 @@ class ForecastServiceIntegrationTest {
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         // todo check a response (check that all fields are not empty)
+
+        // todo PROBLEM:
+        // todo I know that my test don't pass in ForecastMapper in 36 line, but I don't have idea why ?
+    }
+
+    @Test
+    void getForecast_whenPeriodIs5_returns200StatusCode() throws Exception {
+        //given
+        Long id = savedLocalization.getId();
+        MockHttpServletRequestBuilder requestBuilder = get("/localization/" + id + "/forecast?period=5")
+                .contentType(MediaType.APPLICATION_JSON);
+        //when
+        MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
+        //then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
@@ -67,5 +82,16 @@ class ForecastServiceIntegrationTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
-    // todo write more tests
+    @Test
+    void getForecast_whenPeriodIsUnder1_returns400StatusCode() throws Exception {
+        //given
+        Long id = savedLocalization.getId();
+        MockHttpServletRequestBuilder requestBuilder = get("/localization/" + id + "/forecast?period=0")
+                .contentType(MediaType.APPLICATION_JSON);
+        //when
+        MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
+        //then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+    }
+
 }

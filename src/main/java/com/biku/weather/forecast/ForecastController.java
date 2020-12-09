@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,9 +27,11 @@ class ForecastController {
     }
 
     @GetMapping("/forecast")
-    String getForecast(@RequestParam String cityName, @RequestParam(required = false) @DateTimeFormat String date) {
+    String getForecast(@RequestParam String cityName, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         // todo it is one of the additional functionalities
         // todo @DateTimeFormat("yyyy-MM-dd") LocalDate date
+        // todo Question:
+        // todo Like this? @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date
         return null;
     }
 }

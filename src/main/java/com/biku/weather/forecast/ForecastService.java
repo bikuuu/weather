@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @RequiredArgsConstructor
@@ -21,18 +20,13 @@ class ForecastService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final DateManager dateManager;
-    private final ForecastCreator forecastCreator;
     private final OpenWeatherConfig config;
+    private final ForecastMapper forecastMapper;
 
     public Forecast getForecast(Long id, Integer period) {
         Localization localization = localizationFetchService.fetchLocalization(id);
         String cityName = localization.getCityName();
-        String url = UriComponentsBuilder.newInstance()
-                .scheme("http")
-                .host("api.openweathermap.org/data/2.5/forecast")
-                .queryParam("q", cityName)
-                .queryParam("appid", config.getApiKey())
-                .build().toUriString();
+        String url = config.openWeatherUrl(cityName);
 
         ResponseEntity<String> entity = restTemplate.getForEntity(url, String.class);
         String response = entity.getBody();
@@ -42,13 +36,12 @@ class ForecastService {
             ForecastOpenWeatherResponse.SingleForecast forecastFromSingleForecast = forecast
                     .getList()
                     .stream()
-                    .filter(singleForecast -> forecast.toString().contains(cityName) &&         // todo forecast.toString().contains(cityName) is unnecessary
-                            dateManager.localDateTimeConverter(singleForecast.getDate())
-                                    .equals(dateManager.nowDatePlusPeriod(period)))
+                    .filter(singleForecast -> dateManager.localDateTimeConverter(singleForecast.getDate())
+                            .equals(dateManager.nowDatePlusPeriod(period)))
                     .findFirst()
                     .orElseThrow(() -> new NotFoundComponentException("Cannot find forecast for " + cityName));
             return forecastRepository
-                    .save(forecastCreator.createNewForecast(forecastFromSingleForecast, localization));
+                    .save(forecastMapper.mapToNewForecast(forecastFromSingleForecast, localization));
 
         } catch (JsonProcessingException e) {
             throw new CriticalError("Critical error: " + e.getMessage());

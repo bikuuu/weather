@@ -26,7 +26,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(NotFoundComponentException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    void noFoundComponenetExceptionHandler(NotFoundComponentException exception) {      // todo typo - noFoundComponentExceptionHandler
+    void noFoundComponentExceptionHandler(NotFoundComponentException exception) {
         log.error(exception.getMessage());
     }
 

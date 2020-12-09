@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 
 @Data
@@ -21,7 +22,7 @@ public class Forecast {
     String airHumidity;
     String windSpeed;
     String windDirection;
-    String date;            // todo use Instant
+    Instant date;
 
     @ManyToOne
     Localization localization;
