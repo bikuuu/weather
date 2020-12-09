@@ -39,7 +39,6 @@ class ForecastServiceIntegrationTest {
         localization.setLongitude(40.0);
         localization.setLatitude(50.0);
         savedLocalization = localizationRepository.save(localization);
-
     }
 
     @Test

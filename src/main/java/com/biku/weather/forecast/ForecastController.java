@@ -29,9 +29,10 @@ class ForecastController {
     @GetMapping("/forecast")
     String getForecast(@RequestParam String cityName, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         // todo it is one of the additional functionalities
-        // todo @DateTimeFormat("yyyy-MM-dd") LocalDate date
-        // todo Question:
-        // todo Like this? @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date
+        //  @DateTimeFormat("yyyy-MM-dd") LocalDate date
+        //  Question:
+        //  Like this? @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date
+        //  yes
         return null;
     }
 }

@@ -2,6 +2,7 @@ package com.biku.weather.forecast;
 
 import com.biku.weather.exceptions.WrongDataException;
 
+// todo add @Component
 public class DirectionCalculator {
 
     String directCalculate(String windDirection) {
