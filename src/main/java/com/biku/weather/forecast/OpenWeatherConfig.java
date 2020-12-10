@@ -10,10 +10,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Setter
 @ToString
 @ConfigurationProperties(prefix = "com.biku.weather.openweathermap-api")
-public class OpenWeatherConfig {
+class OpenWeatherConfig {
+
     private String apiKey;
 
-    String openWeatherUrl(String cityName) {
+    String openWeatherUrl(String cityName) {    // todo move to ForecastService, this class should only be a container for properties
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("api.openweathermap.org/data/2.5/forecast")

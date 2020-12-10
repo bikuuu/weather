@@ -1,6 +1,5 @@
 package com.biku.weather.forecast;
 
-import com.biku.weather.exceptions.BadRequestException;
 import com.biku.weather.exceptions.WrongDataException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;

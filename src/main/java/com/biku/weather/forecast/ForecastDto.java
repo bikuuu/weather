@@ -12,11 +12,12 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ForecastDto {
-    long id;
-    String temperature;
-    String airPressure;
-    String airHumidity;
-    String windSpeed;
-    String windDirection;
-    Instant date;
+
+    private long id;
+    private String temperature;
+    private String airPressure;
+    private String airHumidity;
+    private String windSpeed;
+    private String windDirection;
+    private Instant date;
 }

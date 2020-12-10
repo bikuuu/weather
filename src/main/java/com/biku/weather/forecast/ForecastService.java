@@ -23,7 +23,7 @@ class ForecastService {
     private final OpenWeatherConfig config;
     private final ForecastMapper forecastMapper;
 
-    public Forecast getForecast(Long id, Integer period) {
+    Forecast getForecast(Long id, Integer period) {
         Localization localization = localizationFetchService.fetchLocalization(id);
         String cityName = localization.getCityName();
         String url = config.openWeatherUrl(cityName);

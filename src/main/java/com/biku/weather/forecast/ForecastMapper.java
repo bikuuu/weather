@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ForecastMapper {
+class ForecastMapper {
 
     private final DateManager dateManager;
     private final DirectionCalculator directionCalculator;

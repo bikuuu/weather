@@ -4,10 +4,9 @@ import com.biku.weather.exceptions.WrongDataException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DirectionCalculator {
+class DirectionCalculator {
 
     String directCalculate(String windDirection) {
-
         Double degree = Double.parseDouble(windDirection);
 
         if (degree >= 0 && degree <= 33.45 || degree >= 337.30 && degree <= 360) {
