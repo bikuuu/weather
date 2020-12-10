@@ -1,11 +1,9 @@
 package com.biku.weather.localization;
 
+import com.biku.weather.forecast.Forecast;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,4 +17,5 @@ public class Localization {
     Double latitude;
     String region;
     String country;
+
 }

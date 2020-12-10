@@ -1,12 +1,14 @@
 package com.biku.weather.localization;
 
 import com.biku.weather.exceptions.NotFoundComponentException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Getter
 @RequiredArgsConstructor
 public class LocalizationFetchService {
 
