@@ -2,7 +2,6 @@ package com.biku.weather.forecast;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.time.*;
 
@@ -23,11 +22,11 @@ class DateManagerTest {
     void nowDatePlusPeriodTest() {
         //given
         Integer period = 1;
+        LocalDateTime nextDay = LocalDateTime.of(LocalDate.now().plusDays(period), LocalTime.of(12, 0));
         //when
-        LocalDateTime nextDay = LocalDateTime.of(LocalDate.now().plusDays(period), LocalTime.of(12, 0));    // todo move to the 'given' section
-                                                                                                            // todo LocalDateTime result = dateManager.nowDatePlusPeriod(period)
+        LocalDateTime result = dateManager.nowDatePlusPeriod(period);
         //then
-        assertThat(dateManager.nowDatePlusPeriod(period)).isEqualTo(nextDay);
+        assertThat(result).isEqualTo(nextDay);
     }
 
     @Test
@@ -41,20 +40,14 @@ class DateManagerTest {
     }
 
     @Test
-    void instantDateConverterTest(){
+    void instantDateConverterTest() {
         // given
         Clock clock = Clock.fixed(Instant.parse("2020-12-05T15:00:00.00Z"), ZoneId.systemDefault());
+        Instant instant = Instant.now(clock);
         // when
-        Instant instant = Instant.now(clock);   // todo move to the 'given' section
-                                                // todo Instant result = dateManager.instantDateConverter(localDateTime)
+        Instant result = dateManager.instantDateConverter(LocalDateTime.now(clock));
         // then
-        assertThat(dateManager.instantDateConverter(localDateTime)).isEqualTo(instant);
-
-        // todo
-        //  Expected :2020-12-05T15:00:00Z - it is a value from the line 47
-        //  Actual   :2020-12-05T14:00:00Z - it is a value from the line 19 transformed to the universal time
-        //                                   if we run the test on a computer in Europe/Warsaw time zone
-        //                                   then from 15:00 it becomes 14:00
+        assertThat(result).isEqualTo(instant);
     }
 
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @RequiredArgsConstructor
@@ -26,7 +27,13 @@ class ForecastService {
     Forecast getForecast(Long id, Integer period) {
         Localization localization = localizationFetchService.fetchLocalization(id);
         String cityName = localization.getCityName();
-        String url = config.openWeatherUrl(cityName);
+        String url = UriComponentsBuilder.newInstance()
+                .scheme("http")
+                .host("api.openweathermap.org/data/2.5/forecast")
+                .queryParam("q", cityName)
+                .queryParam("appid", config.getApiKey())
+                .build().toUriString();
+
 
         ResponseEntity<String> entity = restTemplate.getForEntity(url, String.class);
         String response = entity.getBody();

@@ -25,7 +25,7 @@ class ForecastController {
     }
 
     @GetMapping("/forecast")
-    // todo @ResponseStatus(HttpStatus.NOT_IMPLEMENTED) or @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     String getForecast(@RequestParam String cityName, @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return null;
     }
