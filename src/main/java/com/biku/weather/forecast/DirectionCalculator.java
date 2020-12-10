@@ -1,8 +1,9 @@
 package com.biku.weather.forecast;
 
 import com.biku.weather.exceptions.WrongDataException;
+import org.springframework.stereotype.Component;
 
-// todo add @Component
+@Component
 public class DirectionCalculator {
 
     String directCalculate(String windDirection) {
@@ -23,7 +24,7 @@ public class DirectionCalculator {
             return "SW";
         } else if (degree >= 247.30 && degree <= 292.30) {
             return "W";
-        } else if (degree > 292.30 && degree < 337.3) {
+        } else if (degree > 292.30 && degree < 337.30) {
             return "NW";
         } else {
             throw new WrongDataException("Bad value of wind direction degree");

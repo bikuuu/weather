@@ -13,6 +13,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
@@ -51,10 +53,19 @@ class ForecastServiceIntegrationTest {
         MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-        // todo check a response (check that all fields are not empty)
+        List<Forecast> forecasts = forecastRepository.findAll();
+        assertThat(forecasts.size()).isEqualTo(1);
+        assertThat(forecasts.get(0)).satisfies(forecast -> {
+            assertThat(forecast.getDate()).isNotNull();
+            assertThat(forecast.getId()).isNotNull();
+            assertThat(forecast.getAirHumidity()).isNotNull();
+            assertThat(forecast.getAirPressure()).isNotNull();
+            assertThat(forecast.getLocalization()).isNotNull();
+            assertThat(forecast.getTemperature()).isNotNull();
+            assertThat(forecast.getWindDirection()).isNotNull();
+            assertThat(forecast.getWindSpeed()).isNotNull();
+        });
 
-        // todo PROBLEM:
-        // todo I know that my test don't pass in ForecastMapper in 36 line, but I don't have idea why ?
     }
 
     @Test
@@ -67,29 +78,30 @@ class ForecastServiceIntegrationTest {
         MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
         //then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+
     }
 
     @Test
     void getForecast_whenPeriodIsOver5_returns400StatusCode() throws Exception {
-        //given
+        // given
         Long id = savedLocalization.getId();
         MockHttpServletRequestBuilder requestBuilder = get("/localization/" + id + "/forecast?period=6")
                 .contentType(MediaType.APPLICATION_JSON);
-        //when
+        // when
         MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
-        //then
+        // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 
     @Test
     void getForecast_whenPeriodIsUnder1_returns400StatusCode() throws Exception {
-        //given
+        // given
         Long id = savedLocalization.getId();
         MockHttpServletRequestBuilder requestBuilder = get("/localization/" + id + "/forecast?period=0")
                 .contentType(MediaType.APPLICATION_JSON);
-        //when
+        // when
         MockHttpServletResponse response = mockMvc.perform(requestBuilder).andReturn().getResponse();
-        //then
+        // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
     }
 

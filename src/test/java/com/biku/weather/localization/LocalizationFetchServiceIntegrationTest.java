@@ -1,6 +1,7 @@
 package com.biku.weather.localization;
 
 
+import com.biku.weather.forecast.ForecastRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,9 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -25,9 +25,12 @@ class LocalizationFetchServiceIntegrationTest {
     MockMvc mockMvc;
     @Autowired
     LocalizationRepository localizationRepository;
+    @Autowired
+    ForecastRepository forecastRepository;
 
     @BeforeEach
     public void init() {
+        forecastRepository.deleteAll();
         localizationRepository.deleteAll();
     }
 

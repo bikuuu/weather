@@ -6,9 +6,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 @Component
-class DateManager { // todo good job! just write unit tests for this class
-
-    private final static String zoneId = "Europe/Warsaw";
+class DateManager {
 
     LocalDateTime nowDatePlusPeriod(Integer period) {
         return LocalDateTime.of(LocalDate.now().plusDays(period), LocalTime.of(12, 0));
@@ -19,7 +17,7 @@ class DateManager { // todo good job! just write unit tests for this class
         return LocalDateTime.parse(date, formatter);
     }
 
-    Instant instatntDateConverter(LocalDateTime dateTime) {     // todo typo - instant
-        return dateTime.toInstant(ZoneOffset.of(zoneId));       // todo dateTime.atZone(ZoneId.systemDefault()).toInstant();
+    Instant instantDateConverter(LocalDateTime dateTime) {
+        return dateTime.atZone(ZoneId.systemDefault()).toInstant();
     }
 }

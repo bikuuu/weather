@@ -1,5 +1,6 @@
 package com.biku.weather.localization;
 
+import com.biku.weather.forecast.ForecastRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,11 +27,14 @@ class LocalizationCreateIntegrationTest {
     MockMvc mockMvc;
     @Autowired
     LocalizationRepository localizationRepository;
+    @Autowired
+    ForecastRepository forecastRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setUp() {
+        forecastRepository.deleteAll();
         localizationRepository.deleteAll();
     }
 
