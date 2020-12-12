@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest
@@ -50,6 +51,7 @@ class LocalizationCreateIntegrationTest {
                 "Polska");
         String requestBody = objectMapper.writeValueAsString(localizationDto);
         MockHttpServletRequestBuilder post = post("/localization")
+                .with(user("biku").roles("ADMIN"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody);
 
@@ -76,6 +78,7 @@ class LocalizationCreateIntegrationTest {
         LocalizationDto localizationDto = new LocalizationDto(null, " ", 18.40, 54.21, "Pomorze", "Polska");
         String requestBody = objectMapper.writeValueAsString(localizationDto);
         MockHttpServletRequestBuilder post = post("/localization")
+                .with(user("biku").roles("ADMIN"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody);
 
@@ -85,6 +88,25 @@ class LocalizationCreateIntegrationTest {
         //then
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(localizationRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    void createNewLocalization_whenUserRolesIsUser_returns403StatusCode() throws Exception {
+        //given
+        LocalizationDto localizationDto = new LocalizationDto(null, " ", 18.40, 54.21, "Pomorze", "Polska");
+        String requestBody = objectMapper.writeValueAsString(localizationDto);
+        MockHttpServletRequestBuilder post = post("/localization")
+                .with(user("biku").roles("USER"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody);
+
+        //when
+        MvcResult result = mockMvc.perform(post).andReturn();
+
+        //then
+        MockHttpServletResponse response = result.getResponse();
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.FORBIDDEN.value());
         assertThat(localizationRepository.findAll()).isEmpty();
     }
 }
